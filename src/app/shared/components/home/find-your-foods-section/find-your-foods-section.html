@@ -1,0 +1,66 @@
+<section id="featured" class="bg-white">
+    <div class="container mx-auto px-[32px] md:px-[64px]">
+        <div class="py-3 mb-8 text-center">
+            <h2 class="text-4xl font-semibold text-center mb-2">Find Your Foods</h2>
+            <p class="text-center font-regular text-xl text-gray-600">Explore our featured foods and satisfy your cravings!</p>
+        </div>
+
+        <div class="flex flex-col items-center gap-6 mb-8">
+            <p-inputGroup class="focus:border-blue-500 w-full rounded-[25px] max-w-[450px] mx-auto">
+                <input
+                    [(ngModel)]="searchQuery"
+                    pInputText
+                    placeholder="Search your favorite meal by name or category"
+                    class="
+                        !rounded-l-[12px]
+                        !border-gray-300
+                        focus:!border-blue-500
+                        focus:!ring-0
+                        focus:!shadow-none
+                    "
+                />
+                <p-inputGroupAddon class="!rounded-r-[12px]">
+                    <p-button 
+                        icon="pi pi-search" 
+                        severity="secondary" 
+                        variant="text" 
+                        (click)="searchFoods()"
+                    />
+                </p-inputGroupAddon>
+            </p-inputGroup>
+
+            <!-- Categories -->
+            <div class="flex flex-row flex-wrap items-center gap-3">
+                <div *ngFor="let category of categories" class="mx-auto inline-block">
+                    <button
+                        class="px-4 py-3 text-[20px] rounded-full border 
+                        hover:cursor-pointer transition-colors"
+
+                        [ngClass]="{
+                            'bg-blue-600 text-white border-blue-600 font-semibold': selectedCategory === category,
+                            'bg-white text-gray-700 border-gray-300 hover:bg-gray-100': selectedCategory !== category
+                        }"
+
+                        (click)="filterByCategory(category)"
+                    >
+                        {{ category }}
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+        <p-carousel 
+            [numVisible]="filteredFood.length >= 4 ? 4 : filteredFood.length"
+            [numScroll]="1"
+            [circular]="true"
+            [responsiveOptions]="responsiveOptions"
+        >
+            <ng-template let-food pTemplate="item">
+                <div class="px-3 mb-1">  <!-- gap = padding left/right -->
+                    <app-food-card [food]="food"></app-food-card>
+                </div>
+            </ng-template>
+        </p-carousel>
+    </div>
+</section>

@@ -1,0 +1,42 @@
+<section class="relative h-[533px] overflow-hidden">
+  <!-- Background Image -->
+  <div class="absolute inset-0">
+    <img 
+      [src]="imgUrl" 
+      alt="Reservation" 
+      class="w-full h-full object-cover scale-[1.1]" 
+    />
+    <!-- Overlay -->
+    <div class="absolute inset-0 bg-black/60"></div>
+  </div>
+
+  <!-- Content -->
+  <div class="absolute inset-x-0 bottom-16">
+    <div class="relative max-w-4xl mx-auto px-4 text-center">
+      <h2 class="rubik text-4xl md:text-[48px] font-bold text-white mb-6">
+        Make a Reservation
+      </h2>
+      <p class="font-regular text-[20px] text-white/90 mb-8 max-w-2xl mx-auto">
+        Reserve your table with us and enjoy our delicious meals in a cozy atmosphere.
+      </p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-10">
+        <a href="/reservations" class="block">
+          <button class="group w-[250px] py-2 bg-blue-500 
+              flex flex-row items-center justify-center gap-2
+              rounded-[25px] text-white text-[20px] font-regular
+              transition-all duration-300 ease-in-out
+              hover:cursor-pointer hover:bg-blue-600">
+              <span class="transition-all duration-300 ease-out ml-6 group-hover:ml-0">
+                Do a reservation
+              </span>
+              <i style="font-size: 1rem" 
+              class="pi pi-arrow-right text-[#FFFFFFF]
+              opacity-0 translate-x-[-6px]
+              transition-all duration-300 ease-out
+              group-hover:opacity-100 group-hover:translate-x-0"></i>
+          </button>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,49 @@
+<div class="relative bg-white rounded-[25px] shadow-md overflow-hidden min-h-[400px] w-[297px] flex flex-col">
+    <img 
+        [src]="food.thumbnailUrl" 
+        alt="{{ food.name }}" 
+        class="w-full h-48 object-cover"
+    >
+
+    <div class="absolute top-3 left-3 bg-orange-400 text-white 
+    py-2 px-3 rounded-[12px] text-[16px] font-medium">
+        {{ food.category }}
+    </div>
+
+    <div class="p-4 flex flex-col flex-1">
+        <h3 class="text-xl font-semibold mb-2">{{ food.name }}</h3>
+
+        <!-- DESCRIPTION – 2 LINES MAX -->
+        <p class="text-gray-600 mb-4 line-clamp-2">
+            {{ food.description }}
+        </p>
+
+        <div class="flex flex-row justify-between items-center mt-auto">
+            <span class="text-[20px] font-bold text-green-600">
+                {{ food.price }} <span class="font-semibold text-[18px]">Dt</span>
+            </span>
+
+            <div>
+                <i class="pi pi-star-fill text-[#f5cb42]" style="font-size: 1rem"></i>
+                <span class="ml-2 text-[18px] text-gray-700">{{ food.rating }}</span>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <a href="foods/1" class="block">
+                <button class="group w-full py-2 bg-blue-500 
+                    flex flex-row items-center justify-center gap-2
+                    rounded-[25px] text-white text-[20px] font-regular
+                    transition-all duration-300 ease-in-out
+                    hover:cursor-pointer hover:bg-blue-600">
+                    <span class="transition-all duration-300 ease-out ml-6 group-hover:ml-0">View profile</span>
+                    <i style="font-size: 1rem" 
+                    class="pi pi-arrow-right text-[#FFFFFFF]
+                    opacity-0 translate-x-[-6px]
+                    transition-all duration-300 ease-out
+                    group-hover:opacity-100 group-hover:translate-x-0"></i>
+                </button>
+            </a>
+        </div>
+    </div>
+</div>
