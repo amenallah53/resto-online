@@ -57,7 +57,7 @@ export class FindYourFoodsSection {
 
   searchFoods() {
     const query = this.searchQuery.toLowerCase().trim();
-    this.filteredFood = this.featuredFoods
+    this.filteredFood = foods
       .filter(f => f.name.toLowerCase().includes(query) ||
         f.category.toLowerCase().includes(query));
   } 

@@ -49,18 +49,25 @@
             </div>
         </div>
 
+        <div class="flex items-center justify-center">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                <div *ngFor="let food of filteredFood" class="px-3 mb-1"> 
+                    <app-food-card [food]="food"></app-food-card>
+                </div>
+            </div>
+        </div>
 
-        <p-carousel 
+        <!--<p-carousel 
             [numVisible]="filteredFood.length >= 4 ? 4 : filteredFood.length"
             [numScroll]="1"
             [circular]="true"
             [responsiveOptions]="responsiveOptions"
         >
             <ng-template let-food pTemplate="item">
-                <div class="px-3 mb-1">  <!-- gap = padding left/right -->
+                <div class="px-3 mb-1"> 
                     <app-food-card [food]="food"></app-food-card>
                 </div>
             </ng-template>
-        </p-carousel>
+        </p-carousel>-->
     </div>
 </section>

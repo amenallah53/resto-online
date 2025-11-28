@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrl: './reservation-section.css',
 })
 export class ReservationSection {
-  imgUrl: string = 'assets/hero_slide5.jpg';
+  imgUrl: string = 'assets/reservation.jpg';
 }
