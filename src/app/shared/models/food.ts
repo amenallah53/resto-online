@@ -6,7 +6,7 @@ export interface Food {
     description: string;
     rating?: number;
     category: string;
-    servingSize: string;
+    servingSize: {size: string ,addedPrice: number}[];
     price: number;
     calories?: number;
     protein?: number;
