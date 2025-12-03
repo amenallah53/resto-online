@@ -4,6 +4,7 @@
     <div class="flex flex-row items-center gap-2">
         <div
             class="p-3 rounded-full transition-colors hover:bg-blue-500/10 cursor-pointer"
+            (click)="showDialog()"
         >
             <i style="font-size: 1.5rem" class="pi pi-search text-blue-500"></i>
         </div>
@@ -17,3 +18,38 @@
         </div>
     </div>
 </nav>
+
+
+<p-dialog header="Find food" [modal]="true" [(visible)]="visible" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+        <!-- <div class="flex items-center gap-4 mb-4 w-[70vw]">
+            <input #searchInput pInputText id="username" class="flex-auto w-[100%] pl-6 h-9" autocomplete="off" placeholder="Search the food you want to find"/>
+            <p-button label="Search" (click)="filterByCategory(searchInput.value)"></p-button>
+        </div> -->
+        <p-inputGroup class="focus:border-blue-500 w-full rounded-[25px] max-w-[450px] mx-auto">
+            <input
+                [(ngModel)]="searchQuery"
+                pInputText
+                placeholder="Search your favorite meal by name or category"
+                class="
+                    !rounded-l-[12px]
+                    !border-gray-300
+                    focus:!border-blue-500
+                    focus:!ring-0
+                    focus:!shadow-none
+                "
+            />
+            <p-inputGroupAddon class="!rounded-r-[12px]">
+                <p-button 
+                    icon="pi pi-search" 
+                    severity="secondary" 
+                    variant="text" 
+                    (click)="searchFoods()"
+                />
+            </p-inputGroupAddon>
+        </p-inputGroup>
+        <div class="w-[100%] mt-6 flex flex-col gap-2">
+            <div *ngFor="let food of filteredFood">
+                <app-search-bar-food-card [food]="food"></app-search-bar-food-card>
+            </div>
+        </div>
+</p-dialog>

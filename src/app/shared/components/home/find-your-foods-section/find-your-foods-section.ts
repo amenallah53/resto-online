@@ -31,6 +31,7 @@ import { MenuModule } from 'primeng/menu';
   styleUrls: ['./find-your-foods-section.css'],
 })
 export class FindYourFoodsSection {
+  
   responsiveOptions: any[] = [];
 
   featuredFoods: Food[] = foods.slice(0, 4);
