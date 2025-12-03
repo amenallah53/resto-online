@@ -8,6 +8,7 @@ import { foods } from '../../utils/foods';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputTextModule } from 'primeng/inputtext';
+import { CartDrawer } from '../cart-drawer/cart-drawer';
 @Component({
   selector: 'app-header',
   imports: [
@@ -19,6 +20,7 @@ import { InputTextModule } from 'primeng/inputtext';
     InputGroupAddonModule,
     InputTextModule,
     FormsModule,
+    CartDrawer
   ],
   templateUrl: './header.html',
   styleUrls: ['./header.css'],

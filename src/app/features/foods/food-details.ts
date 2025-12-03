@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule, NgIf } from '@angular/common';
 import { foods } from '../../shared/utils/foods';
@@ -8,6 +8,7 @@ import { ButtonModule } from 'primeng/button';
 import { FoodCard } from '../../shared/components/cards/food-card/food-card';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { FormsModule } from '@angular/forms';
+import { CartService } from '../../../core/services/cart-service';
 @Component({ selector: 'app-food-details', standalone: true, templateUrl: './food-details.html', styleUrls: ['./foods.css'], imports: [ CommonModule, NgIf, GalleriaModule, ButtonModule, FoodCard, InputNumberModule, FormsModule ], })
 
 export class FoodDetails {
@@ -18,6 +19,9 @@ export class FoodDetails {
   btnsDisabled: boolean = this.selectedSize?.size === "";
 
   constructor(private route: ActivatedRoute) {}
+
+  cartService = inject(CartService)
+  //cart = this.cartService.getCart()
 
   responsiveOptions: any[] = [
     { breakpoint: '1300px', numVisible: 4 },
@@ -48,5 +52,9 @@ export class FoodDetails {
   get totalPrice(): number {
     if (!this.food) return 0;
     return (this.food.price + (this.selectedSize?.addedPrice || 0)) * this.quantity;
+  }
+
+  addItem(quantity: number) {
+    this.cartService.addItem(this.food!.id, quantity)
   }
 }

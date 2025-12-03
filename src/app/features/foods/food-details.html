@@ -82,7 +82,8 @@
                 </p-inputNumber>
             </div>
             <div class="mt-auto w-full justify-between items-center gap-2 flex flex-row">
-                <button [disabled]="btnsDisabled" style="border-radius:25px" pButton class="w-full rounded-[25px]">
+                <button (click)="addItem(quantity)" 
+                [disabled]="btnsDisabled" style="border-radius:25px" pButton class="w-full rounded-[25px]">
                     <i class="pi pi-plus" pButtonIcon></i>
                     <span pButtonLabel class="text-[20px]">Add to cart</span>
                 </button>

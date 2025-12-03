@@ -5,6 +5,6 @@ export interface Cart {
         foodId: string;
         quantity: number;
     }[];
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt?: Date;
+    updatedAt?: Date;
 }
