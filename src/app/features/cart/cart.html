@@ -1,1 +1,114 @@
-<p>cart works!</p>
+<div class="card flex justify-center">
+    <p-stepper [value]="1" class="basis-[75rem]" [linear]="true">
+        <p-step-list>
+            <p-step [value]="1">Shopping cart</p-step>
+            <p-step [value]="2">Checkout</p-step>
+            <p-step [value]="3">Order complete</p-step>
+        </p-step-list>
+        <p-step-panels>
+            <p-step-panel [value]="1">
+                <ng-template #content let-activateCallback="activateCallback">
+                    <div class="flex flex-row gap-8 justify-between items-center">
+                        <div class="flex flex-col w-full min-h-48">
+                            <div *ngFor="let item of cartFoods">
+                                <div class="flex flex-col gap-3 mb-3">
+                                    <div class="flex flex-row items-center justify-between p-3 
+                                    border-1 border-[#8C8C8C]/25 rounded-lg">
+                                        <div class="w-[30%] flex flex-row justify-start items-center gap-3">
+                                            <img class="rounded-lg w-[100px] h-[75px] object-cover" src="{{item.food?.thumbnailUrl}}">
+                                            <h1 class="text-[#262626] text-[16px] font-medium">{{item.food?.name}}</h1>
+                                        </div>   
+                                        <h1 class="text-[#8C8C8C] text-[16px] font-medium">
+                                            {{ item.price | number : '1.2-2' }} Dt
+                                        </h1>
+
+                                        <p-inputNumber
+                                            [(ngModel)]="item.totalQuantity"
+                                            (ngModelChange)="updateFirstQuantity($event, item)"
+                                            [showButtons]="true"
+                                            buttonLayout="horizontal"
+                                            inputStyleClass="!w-10 !h-8"
+                                            [min]="item.initialTotalQuantity"
+                                            [max]="99"
+                                            [step]="1"
+                                            decrementButtonClass="p-button-danger"
+                                            incrementButtonClass="p-button-success"
+                                            decrementButtonIcon="pi pi-minus"
+                                            incrementButtonIcon="pi pi-plus">
+                                        </p-inputNumber>
+                                        <div class="p-3 rounded-full transition-colors hover:bg-red-500/10 cursor-pointer">
+                                            <i (click)="cartService.removeItem(item.food?.id!)" class="pi pi-trash text-red-500 cursor-pointer"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="h-full w-[500px] p-6 border-1 border-[#8C8C8C]/25 rounded-lg 
+                        flex flex-col justify-center gap-4">
+                            <h1 class="text-[#262626] font-medium text-[24px]">Order Summary</h1>
+                            <div class="flex flex-row items-center justify-between text-[18px]">
+                                <h3 class="text-[#8C8C8C]">Total Price</h3>
+                                <p class="text-[#565656] font-medium">
+                                    {{totalPrice | number : '1.2-2'}} Dt
+                                </p>
+                            </div>
+                            <div class="flex flex-row items-center justify-between text-[18px]">
+                                <h3 class="text-[#8C8C8C]">Tax</h3>
+                                <p class="text-green-700 font-medium">Free</p>
+                            </div>
+                            <div class="flex  justify-end">
+                                <p-button severity="info" label="Proceed to checkout" icon="pi pi-arrow-right" iconPos="right" (onClick)="activateCallback(2)" />
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </p-step-panel>
+
+            <p-step-panel [value]="2">
+                <ng-template #content let-activateCallback="activateCallback">
+                    <div class="flex flex-col min-h-48">
+                        <app-form (formSubmitted)="onFormSubmitted(activateCallback)"></app-form>
+                    </div>
+                    <div class="flex pt-6 justify-between">
+                        <p-button label="Back" severity="secondary" icon="pi pi-arrow-left" (onClick)="activateCallback(1)" />
+                        <!--<p-button severity="info" label="Place Order" icon="pi pi-arrow-right" iconPos="right" (onClick)="activateCallback(3)" />-->
+                    </div>
+                </ng-template>
+            </p-step-panel>
+
+            <p-step-panel [value]="3">
+                <ng-template #content let-activateCallback="activateCallback">
+                    <div class="p-3 flex flex-row justify-center items-center gap-16 min-h-48">
+                        <div class="flex flex-col items-start justify-center gap-3">
+                            <h1 class="text-[32px] font-semibold text-[#262626]">
+                                Your Order is confirmed
+                            </h1>
+                            <h3 class="text-[24px] font-medium text-[#565656]">
+                                Thank you for your purchase
+                            </h3>
+                            <h5 class="text-[16px] font-regular text-[#8C8C8C]">
+                                Your order has been successfully placed and will be processed shortly.
+                            </h5>
+                            <a href="foods">
+                                <p-button severity="info" label="Continue Shopping" icon="pi pi-shopping-cart" iconPos="right" />
+                            </a>
+                        </div>
+                        <!-- Gift Box Illustration -->
+                        <div class="flex justify-center">
+                            <div class="relative">
+                                <div class="w-32 h-32 bg-blue-500 rounded-lg flex items-center justify-center relative">
+                                    <i style="font-size: 5rem" class="pi pi-box text-white"></i>
+                                    <div class="absolute -top-4 -left-4 w-40 h-40 border-2 border-blue-700 rounded-lg opacity-30"></div>
+                                    <div class="absolute -top-6 -left-6 w-44 h-44 border-2 border-blue-700 rounded-lg opacity-20"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex pt-6 justify-start">
+                        <p-button severity="secondary" label="Back" icon="pi pi-arrow-left" iconPos="left" (onClick)="activateCallback(2)" />
+                    </div>
+                </ng-template>
+            </p-step-panel>
+        </p-step-panels>
+    </p-stepper>
+</div>
