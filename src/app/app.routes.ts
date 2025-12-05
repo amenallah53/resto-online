@@ -17,6 +17,10 @@ export const routes: Routes = [
         loadComponent: () => import('./features/foods/food-details').then(m => m.FoodDetails)
       },
       {
+        path: 'cart',
+        loadComponent: () => import('./features/cart/cart').then(m => m.Cart)
+      },
+      {
         path: 'reservations',
         loadComponent: () => import('./features/reservations/reservations').then(m => m.Reservations)
       },

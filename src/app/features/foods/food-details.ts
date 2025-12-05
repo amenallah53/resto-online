@@ -55,6 +55,13 @@ export class FoodDetails {
   }
 
   addItem(quantity: number) {
-    this.cartService.addItem(this.food!.id, quantity)
+    const sizesCount = this.food?.servingSize.length ?? 0;
+    // Create array of zeros with length = number of sizes
+    const quantities = new Array(sizesCount).fill(0);
+    const index_size = this.food!.servingSize.indexOf(this.selectedSize!);
+    quantities[index_size] = quantity;
+    this.cartService.addItem(this.food!.id, quantities, this.totalPrice);
+    console.log("total", this.totalPrice);
   }
+
 }

@@ -1,15 +1,54 @@
 <div class="card flex justify-center">
-    <p-drawer class="relative" position="right" [(visible)]="visible" header="Cart">
-        <p>{{cart.id}}</p>
-        <p>{{cart.userId}}</p>
-        <p>{{cart.items[0].foodId}}</p>
-        <p>{{cart.items[0].quantity}}</p>
+    <p-drawer class="relative" position="right" [(visible)]="visible" header="My cart">
+
+        <div class="h-full" *ngIf="cartFoods.length === 0">
+            <div class="h-full flex flex-col items-center justify-center gap-4">
+                <i class="pi pi-search"  style="font-size: 5rem; color: #565656"></i>
+                <h3 class="text-[24px] font-medium text-[#565656]">Your cart is empty</h3>
+            </div>
+        </div>
+        <div *ngFor="let item of cartFoods">
+            <div class="flex flex-col gap-3 mb-3">
+                <div class="flex flex-row items-center justify-between p-2 
+                border-1 border-[#8C8C8C]/25 rounded-lg">
+                    <div class="flex flex-row items-center gap-2">
+                    <img class="rounded-lg w-[100px] h-[75px] object-cover" src="{{item.food?.thumbnailUrl}}">
+                    <div class="flex flex-col items-start gap-2">
+                        <h1 class="text-[#262626] text-[16px] font-medium">{{item.food?.name}}</h1>
+                        <h1 class="text-[#8C8C8C] text-[16px] font-medium">{{item.price}} Dt</h1>
+                        <p-inputNumber
+                            [(ngModel)]="item.totalQuantity"
+                            (ngModelChange)="updateFirstQuantity($event, item)"
+                            [showButtons]="true"
+                            buttonLayout="horizontal"
+                            inputStyleClass="!w-10 !h-8"
+                            [min]="item.initialTotalQuantity"
+                            [max]="99"
+                            [step]="1"
+                            decrementButtonClass="p-button-danger"
+                            incrementButtonClass="p-button-success"
+                            decrementButtonIcon="pi pi-minus"
+                            incrementButtonIcon="pi pi-plus">
+                        </p-inputNumber>
+
+                    </div>
+                    </div>
+                    <div class="p-3 rounded-full transition-colors hover:bg-red-500/10 cursor-pointer">
+                        <i (click)="cartService.removeItem(item.food?.id!)" class="pi pi-trash text-red-500 cursor-pointer"></i>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
         <div class="absolute bottom-6 w-full pr-10">
-            <p-button
-                label="Confirm Order"
-                icon="pi pi-check-square"
-                styleClass="w-full rounded-[25px] text-[16px] py-3"
-            />
+            <a href="cart" >
+                <p-button
+                    [disabled]="cartFoods.length === 0"
+                    label="Confirm Order"
+                    icon="pi pi-check-square"
+                    styleClass="w-full rounded-[25px] text-[16px] py-3"
+                />
+            </a>
         </div>
 
     </p-drawer>
