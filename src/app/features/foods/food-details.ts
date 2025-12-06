@@ -8,7 +8,7 @@ import { ButtonModule } from 'primeng/button';
 import { FoodCard } from '../../shared/components/cards/food-card/food-card';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { FormsModule } from '@angular/forms';
-import { CartService } from '../../../core/services/cart-service';
+import { CartService } from '../../core/services/cart.service';
 @Component({ selector: 'app-food-details', standalone: true, templateUrl: './food-details.html', styleUrls: ['./foods.css'], imports: [ CommonModule, NgIf, GalleriaModule, ButtonModule, FoodCard, InputNumberModule, FormsModule ], })
 
 export class FoodDetails {
