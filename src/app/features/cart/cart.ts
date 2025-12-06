@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { StepperModule } from 'primeng/stepper';
 import { ButtonModule } from 'primeng/button';
-import { CartService } from '../../../core/services/cart-service';
+import { CartService } from '../../core/services/cart.service';
 import { Food } from '../../shared/models/food';
 import { foods } from '../../shared/utils/foods';
 import { CommonModule } from '@angular/common';
