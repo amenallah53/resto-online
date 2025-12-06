@@ -17,12 +17,12 @@
 </nav>
 
 
-<p-dialog header="Find food" [modal]="true" [(visible)]="visible" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+<p-dialog header="Find food" [modal]="true" [(visible)]="visible" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" class="max-w-[70vw]">
         <!-- <div class="flex items-center gap-4 mb-4 w-[70vw]">
             <input #searchInput pInputText id="username" class="flex-auto w-[100%] pl-6 h-9" autocomplete="off" placeholder="Search the food you want to find"/>
             <p-button label="Search" (click)="filterByCategory(searchInput.value)"></p-button>
         </div> -->
-        <p-inputGroup class="focus:border-blue-500 w-full rounded-[25px] max-w-[450px] mx-auto">
+        <p-inputGroup class="focus:border-blue-500 w-full rounded-[25px] max-w-[65vw] mx-auto">
             <input
                 [(ngModel)]="searchQuery"
                 pInputText

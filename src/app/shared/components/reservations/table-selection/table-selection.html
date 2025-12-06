@@ -1,0 +1,40 @@
+<div class="flex flex-col w-[70vw] mx-auto mt-6 align-center gap-5">
+  <div class="flex justify-between gap-6">
+    
+    <!-- Start Date -->
+    <div class="flex-1 flex flex-col gap-1">
+      <label for="start-date" class="text-gray-500">Reservation start date</label>
+      <input 
+        type="date" 
+        name="start-date" 
+        id="start-date"  
+        class="h-8 pl-4 border rounded"
+        [(ngModel)]="reservationDate"
+        (change)="validateDateTime()"
+      >
+      <div class="text-red-500 text-sm" *ngIf="dateError">{{ dateError }}</div>
+    </div>
+
+    <!-- Reservation Time -->
+    <div class="flex-1 flex flex-col gap-1">
+      <label for="reservation-time" class="text-gray-500">Reservation time</label>
+      <input 
+        type="time" 
+        name="reservation-time" 
+        id="reservation-time" 
+        class="h-8 pl-4 border rounded"
+        step="1800"
+        [(ngModel)]="reservationTime"
+        (change)="validateDateTime()"
+      >
+      <div class="text-red-500 text-sm" *ngIf="timeError">{{ timeError }}</div>
+    </div>
+
+  </div>
+
+  <div class="w-250 h-150 floor self-center my-8 grid grid-cols-8 grid-rows-5">
+    <div *ngFor="let table of tables">
+      <img [src]="'/assets/table-top-view.png'" alt="" class="h-18 w-25 hover:shadow-green-100 hover:shadow-md" ngClass="{reserved: hover:shadow-red-100}">
+    </div>
+  </div>
+</div>

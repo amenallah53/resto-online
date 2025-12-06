@@ -1,20 +1,22 @@
-<div class="w-[100%] px-4 my-2 flex justify-flex-start align-center">
-    <div class="flex gap-4">
-        <div class="min-w-16 min-h-16 w-16 h-16 border rounded-md overflow-hidden">
-            <img 
+<a [routerLink]="['/foods', food.id]">
+    <div class="w-[70vw] px-4 my-2 flex justify-flex-start align-center">
+        <div class="flex gap-4">
+            <div class="min-w-16 min-h-16 w-16 h-16 border rounded-md overflow-hidden">
+                <img 
                 [src]="food.thumbnailUrl" 
                 alt="{{food.name}}"
                 class="w-16 h-16 object-cover"
-            >
+                >
+            </div>
+            <div class="flex flex-col gap-4 justify-start w-full">
+                <p class="m-0 p-0 text-5 text-black font-medium">{{food.name}}</p>
+                <p class="m-0 p-0 text-6 text-green-700 font-bold">{{food.price}} Dt</p>
+            </div>
+            <div class="w-[100%] text-gray-400">{{food.description}}</div>
+            <p class="m-0 p-0 w-16" *ngIf="food.rating != undefined">
+                <i class="pi pi-star-fill text-[#f5cb42] justify-self-end"></i>
+                4.5
+            </p>
         </div>
-        <div class="flex flex-col gap-3 justify-between w-full">
-            <p class="m-0 p-0 text-5 text-black font-medium">{{food.name}}</p>
-            <p class="m-0 p-0 text-6 text-green-700 font-bold">{{food.price}} Dt</p>
-        </div>
-        <div class="w-[100%] text-gray-400">{{food.description}}</div>
-        <p class="m-0 p-0 w-16" *ngIf="food.rating != undefined">
-            <i class="pi pi-star-fill text-[#f5cb42] justify-self-end"></i>
-            4.5
-        </p>
     </div>
-</div>
+</a>
