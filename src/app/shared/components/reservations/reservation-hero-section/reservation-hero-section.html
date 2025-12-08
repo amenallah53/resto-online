@@ -1,0 +1,24 @@
+<section class="relative h-[600px] overflow-hidden">
+  <!-- Background Image -->
+  <div class="absolute inset-0">
+    <img 
+      [src]="imgUrl" 
+      alt="Reservation" 
+      class="w-full h-full object-cover scale-[1.1]" 
+    />
+    <!-- Overlay -->
+    <div class="absolute inset-0 bg-black/60"></div>
+  </div>
+
+  <!-- Content -->
+  <div class="absolute inset-x-0 bottom-16 px-6">
+    <div class="flex flex-col justify-start items-start max-w-4xl">
+      <h2 class="rubik text-4xl md:text-[48px] font-bold text-white mb-6">
+        Reserve a table in our restaurant
+      </h2>
+      <p class="font-regular text-[20px] text-white/90 mb-8 max-w-2xl">
+        Book yourself a table in our restaurant for any time and dite you want!
+      </p>
+    </div>
+  </div>
+</section>

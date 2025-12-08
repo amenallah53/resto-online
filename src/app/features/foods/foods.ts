@@ -11,5 +11,11 @@ import { FoodsNavBar } from '../../shared/components/foods/foods-nav-bar/foods-n
   styleUrl: './foods.css',
 })
 export class Foods {
+  static map(arg0: (u: any) => any): typeof Foods {
+    throw new Error('Method not implemented.');
+  }
+  static filter(arg0: (u: any) => boolean): typeof Foods {
+    throw new Error('Method not implemented.');
+  }
 
 }

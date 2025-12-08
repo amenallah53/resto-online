@@ -1,58 +1,110 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { TABLES } from '../../../utils/tables';
+import { Table } from '../../../models/table';
+import { findMaxCapacity } from '../../../utils/tables';
+import { find } from 'rxjs';
+import { ButtonModule } from 'primeng/button';
+import { Reservation } from '../../../models/reservation';
+import { RESERVATIONS } from '../../../utils/reservations';
+import { ReservationHeroSection } from '../reservation-hero-section/reservation-hero-section';
 
 @Component({
   selector: 'app-table-selection',
-  imports: [FormsModule,CommonModule],
+  imports: [FormsModule,CommonModule, ButtonModule, ReservationHeroSection],
   templateUrl: './table-selection.html',
-  styleUrls: ['./table-selection.css'],
+  styleUrls: ['./table-selection.css']
 })
 export class TableSelection {
-
-  tables=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40]
-  reservationDate: string = '';
-  reservationTime: string = '';
+  reservationDate: Date = new Date();
+  reservationTime: string = "12-00-00";
+  numberOfPeople: number=0;
 
   dateError: string = '';
   timeError: string = '';
+  peopleError: string = '';
+  acceptableDate=false;
+  acceptableTime=false;
+  acceptablePeople=false;
+  acceptableAll=false;
+  checkTime(){
+    const hour = parseInt(this.reservationTime.substring(0, 2), 10);
+    if (hour<8 && hour>1){
+      this.timeError='The restaurant is closed between 1AM and 8AM';
+      this.acceptableTime=false;
+    } else {
+      this.timeError='';
+      this.acceptableTime=true;
+    }
+  }
 
-  validateDateTime() {
+  checkDate(){
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Set time to midnight for comparison
+    if (this.reservationDate < today) {
+      this.dateError = 'The reservation date cannot be in the past.';
+      this.acceptableDate=false;
+    } else {
+      this.dateError = '';
+      this.acceptableDate=true;
+    }
+  }
+
+  checkPeople() {
+    if (this.numberOfPeople <= 0) {
+      this.peopleError = 'The number of people must be greater than 0.';
+      this.acceptablePeople = false;
+    } else if (this.numberOfPeople > findMaxCapacity(TABLES)) {
+      this.peopleError = 'The number of people cannot exceed '+ findMaxCapacity(TABLES).toString();
+      this.acceptablePeople = false;
+    } else {
+      this.peopleError = '';
+      this.acceptablePeople = true;
+    }
+  }
+
+  checkAll(){
+    this.checkDate();
+    this.checkTime();
+    this.checkPeople();
+    this.acceptableAll=this.acceptableDate && this.acceptableTime && this.acceptablePeople;
+  }
+
+  saveReservation() {
+    if (this.acceptableAll && this.numberOfPeople > 0) {
+      const reservationId = `r${RESERVATIONS.length + 1}`;
+      const reservation: Reservation = {
+        id: reservationId,
+        userId: 'u1',
+        reservationTime: this.parseReservationDateTime(),
+        numberOfGuests: this.numberOfPeople,
+        tableNumber: this.findAvailableTable().tableID
+      };
+      RESERVATIONS.push(reservation);
+    }
+    console.log("mwah");
+
+    this.reservationDate = new Date();
+    this.reservationTime = "12-00-00";
+    this.numberOfPeople = 0;
     this.dateError = '';
     this.timeError = '';
+    this.peopleError = '';
+    this.acceptableDate = false;
+    this.acceptableTime = false;
+    this.acceptablePeople = false;
+    this.acceptableAll = false;
+  }
 
-    const now = new Date();
+  private parseReservationDateTime(): Date {
+    const [hours, minutes, seconds] = this.reservationTime.split('-').map(Number);
+    const dateTime = new Date(this.reservationDate);
+    dateTime.setHours(hours, minutes, seconds, 0);
+    return dateTime;
+  }
 
-    // --- DATE VALIDATION ---
-    if (this.reservationDate) {
-      const selectedDate = new Date(this.reservationDate);
-      selectedDate.setHours(0, 0, 0, 0);
-      if (selectedDate < new Date(now.getFullYear(), now.getMonth(), now.getDate())) {
-        this.dateError = 'Date cannot be in the past';
-      }
-    }
-
-    // --- TIME VALIDATION ---
-    if (this.reservationTime) {
-      const [hours, minutes] = this.reservationTime.split(':').map(Number);
-      const totalMinutes = hours * 60 + minutes;
-
-      const minMinutes = 8 * 60;  // 08:00
-      const maxMinutes = 25 * 60; // 01:00 next day
-
-      // Adjust for times past midnight
-      const adjustedMinutes = hours < 8 ? totalMinutes + 24 * 60 : totalMinutes;
-
-      if (adjustedMinutes < minMinutes || adjustedMinutes > maxMinutes || minutes % 30 !== 0) {
-        this.timeError = 'Time must be between 08:00 and 01:00 with 30-minute intervals';
-      } else if (this.reservationDate) {
-        // check if time is in the past for today
-        const selectedDateTime = new Date(this.reservationDate);
-        selectedDateTime.setHours(hours, minutes, 0, 0);
-        if (selectedDateTime < now) {
-          this.timeError = 'Time cannot be in the past';
-        }
-      }
-    }
+  private findAvailableTable(): Table {
+    return TABLES.filter(table => table.capacity >= this.numberOfPeople)[0];
   }
 }

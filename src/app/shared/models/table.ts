@@ -1,5 +1,5 @@
 export interface Table {
-    number: number;
+    tableID: number;
     capacity: number;
     isAvailable: boolean;
 }
