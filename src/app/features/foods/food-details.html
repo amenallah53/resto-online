@@ -3,20 +3,23 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-2">
         <section>
             <div class="card">
-            <p-galleria
-                [value]="food?.imageUrls"
-                [responsiveOptions]="responsiveOptions"
-                [containerStyle]="{ 'width': '100%' }"
-                [numVisible]="5"
-            >
-                <ng-template #item let-item>
-                    <img class="h-[400px] object-cover" [src]="item" style="width: 100%;" />
-                </ng-template>
+                <p-galleria
+                    [autoPlay]="true" 
+                    [circular]="true"
+                    [value]="food?.imageUrls"
+                    [responsiveOptions]="responsiveOptions"
+                    [containerStyle]="{ 'width': '100%' }"
+                    [numVisible]="3"
+                    [showItemNavigators]="true"
+                >
+                    <ng-template #item let-item>
+                        <img class="h-[400px] object-cover" [src]="item" style="width: 100%;" />
+                    </ng-template>
 
-                <ng-template #thumbnail let-item>
-                    <img class="w-[200px] h-[100px] object-cover" [src]="item" />
-                </ng-template>
-            </p-galleria>
+                    <ng-template #thumbnail let-item>
+                        <img class="w-[200px] h-[100px] object-cover" [src]="item" />
+                    </ng-template>
+                </p-galleria>
             </div>
         </section>
 
@@ -87,7 +90,7 @@
                     <i class="pi pi-plus" pButtonIcon></i>
                     <span pButtonLabel class="text-[20px]">Add to cart</span>
                 </button>
-                <button [disabled]="btnsDisabled" pButton rounded class="w-full" severity="info">
+                <button  (click)="buyItNow()" [disabled]="btnsDisabled" pButton rounded class="w-full" severity="info">
                     <span class="font-medium text-[20px]">Buy it now</span> 
                 </button>
             </div>

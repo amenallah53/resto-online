@@ -61,8 +61,8 @@ export class TablesTab {
       u.tableID === this.selectedTable!.tableID
         ? {
             ...u,
-            username: this.editData.capacity,
-            email: this.editData.isAvailable,
+            capacity: this.editData.capacity,
+            isAvailable: this.editData.isAvailable
           }
         : u
     );
@@ -70,4 +70,5 @@ export class TablesTab {
     this.visible = false;
     this.selectedTable = null;
   }
+
 }

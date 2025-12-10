@@ -70,7 +70,7 @@ export class FoodsTab {
     if (!this.selectedFood) return;
 
     this.FoodsList = this.FoodsList.map((u) =>
-      u.id === this.selectedTable!.id
+      u.id === this.selectedFood!.id
         ? {
             ...u,
             name: this.editData.name,
@@ -86,4 +86,5 @@ export class FoodsTab {
     this.visible = false;
     this.selectedFood = null;
   }
+
 }

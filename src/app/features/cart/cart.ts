@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { Form } from '../../shared/components/form/form';
 import { MessageService } from 'primeng/api';
+import { TempCartService } from '../../core/services/one-off-cart.service';
 
 @Component({
   selector: 'app-cart',
@@ -31,7 +32,7 @@ export class Cart {
   }[] = [];
   totalPrice? : number;
 
-  constructor(private messageService: MessageService) {}
+  constructor(private messageService: MessageService, private tempCart: TempCartService) {}
 
   onFormSubmitted(activateCallback: any) {
     this.messageService.add({
@@ -45,25 +46,38 @@ export class Cart {
 
   ngOnInit() {
     this.totalPrice = 0
-    this.cartService.cart$.subscribe(cart => {
-      this.cartFoods = cart.items
+
+    const stateCart = this.tempCart.getCart();
+    if (stateCart) {
+      this.cartFoods = stateCart.items
         .map(item => {
-          this.totalPrice! += item.price;
           const food = foods.find(f => f.id === item.foodId);
           if (!food) return null;
           const totalQuantity = item.quantities.reduce((a, b) => a + b, 0);
-          return { 
-            food, 
-            quantities: item.quantities, 
-            price: item.price, 
-            size: '', 
-            totalQuantity, 
-            initialTotalQuantity: totalQuantity // store initial total
-          };
+          this.totalPrice! += item.price;
+          return { food, quantities: item.quantities, price: item.price, size: '', totalQuantity, initialTotalQuantity: totalQuantity };
         })
         .filter(Boolean) as any[];
-    });
-    
+    } else {
+      this.cartService.cart$.subscribe(cart => {
+        this.cartFoods = cart.items
+          .map(item => {
+            this.totalPrice! += item.price;
+            const food = foods.find(f => f.id === item.foodId);
+            if (!food) return null;
+            const totalQuantity = item.quantities.reduce((a, b) => a + b, 0);
+            return { 
+              food, 
+              quantities: item.quantities, 
+              price: item.price, 
+              size: '', 
+              totalQuantity, 
+              initialTotalQuantity: totalQuantity // store initial total
+            };
+          })
+          .filter(Boolean) as any[];
+      });
+    }
   }
 
   calcAllQuantities(arr: number[]) {

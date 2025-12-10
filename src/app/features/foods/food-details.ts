@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule, NgIf } from '@angular/common';
 import { foods } from '../../shared/utils/foods';
 import { Food } from '../../shared/models/food';
@@ -9,7 +9,22 @@ import { FoodCard } from '../../shared/components/cards/food-card/food-card';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { FormsModule } from '@angular/forms';
 import { CartService } from '../../core/services/cart.service';
-@Component({ selector: 'app-food-details', standalone: true, templateUrl: './food-details.html', styleUrls: ['./foods.css'], imports: [ CommonModule, NgIf, GalleriaModule, ButtonModule, FoodCard, InputNumberModule, FormsModule ], })
+import { TempCartService } from '../../core/services/one-off-cart.service';
+@Component({ 
+  selector: 'app-food-details', 
+  standalone: true, 
+  templateUrl: './food-details.html', 
+  styleUrls: ['./foods.css'], 
+  imports: [ 
+    CommonModule, 
+    NgIf, 
+    GalleriaModule, 
+    ButtonModule, 
+    FoodCard, 
+    InputNumberModule, 
+    FormsModule 
+  ], 
+})
 
 export class FoodDetails {
   food?: Food;
@@ -18,7 +33,9 @@ export class FoodDetails {
   selectedSize?: { size: string; addedPrice: number } = { size: "", addedPrice: 0 };
   btnsDisabled: boolean = this.selectedSize?.size === "";
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, 
+    private router: Router,
+    private tempCart: TempCartService) {}
 
   cartService = inject(CartService)
   //cart = this.cartService.getCart()
@@ -62,6 +79,21 @@ export class FoodDetails {
     quantities[index_size] = quantity;
     this.cartService.addItem(this.food!.id, quantities, this.totalPrice);
     console.log("total", this.totalPrice);
+  }
+
+  buyItNow() {
+    if (!this.food || !this.selectedSize) return;
+
+    const quantities = new Array(this.food.servingSize.length).fill(0);
+    const index = this.food.servingSize.indexOf(this.selectedSize);
+    quantities[index] = this.quantity;
+
+    const oneOffCart = {
+      items: [{ foodId: this.food.id, quantities, price: this.totalPrice }]
+    };
+
+    this.tempCart.setCart(oneOffCart);
+    this.router.navigate(['/cart']);
   }
 
 }

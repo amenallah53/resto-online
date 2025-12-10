@@ -1,5 +1,7 @@
 <nav class="py-3 px-6 flex flex-row justify-between bg-white">
-    <div class="text-[40px] font-semibold text-[#262626]">SIDIBOU</div>
+    <a href="/">
+        <div class="text-[40px] font-semibold text-[#262626]">SIDIBOU</div>
+    </a>
 
     <div class="flex flex-row items-center gap-2">
         <div
@@ -17,36 +19,56 @@
 </nav>
 
 
-<p-dialog header="Find food" [modal]="true" [(visible)]="visible" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" class="max-w-[70vw]">
-        <!-- <div class="flex items-center gap-4 mb-4 w-[70vw]">
-            <input #searchInput pInputText id="username" class="flex-auto w-[100%] pl-6 h-9" autocomplete="off" placeholder="Search the food you want to find"/>
-            <p-button label="Search" (click)="filterByCategory(searchInput.value)"></p-button>
-        </div> -->
-        <p-inputGroup class="focus:border-blue-500 w-full rounded-[25px] max-w-[65vw] mx-auto">
-            <input
-                [(ngModel)]="searchQuery"
-                pInputText
-                placeholder="Search your favorite meal by name or category"
-                class="
-                    !rounded-l-[12px]
-                    !border-gray-300
-                    focus:!border-blue-500
-                    focus:!ring-0
-                    focus:!shadow-none
-                "
+
+<!-- SEARCH DIALOG -->
+<p-dialog 
+    header="Find food" 
+    [(visible)]="visible"
+    [modal]="true"
+    [style]="{ width: '40vw' }"
+    [breakpoints]="{
+        '575px': '90vw'
+    }"
+>
+    <ng-template pTemplate="header">
+        <h1 class="text-[#565656] font-medium text-[24px]">
+            Find food
+        </h1>
+    </ng-template>
+    <p-inputGroup class="mb-8 focus:border-blue-500 !w-[75%] rounded-[25px] mx-auto">
+        <input
+            [(ngModel)]="searchQuery"
+            pInputText
+            placeholder="Search your favorite meal by name"
+            class="
+                !rounded-l-[12px]
+                !border-gray-300
+                focus:!border-blue-500
+                focus:!ring-0
+                focus:!shadow-none
+            "
+        />
+        <p-inputGroupAddon class="!rounded-r-[12px]">
+            <p-button 
+                icon="pi pi-search" 
+                severity="secondary" 
+                variant="text" 
+                (click)="searchFoods()"
             />
-            <p-inputGroupAddon class="!rounded-r-[12px]">
-                <p-button 
-                    icon="pi pi-search" 
-                    severity="secondary" 
-                    variant="text" 
-                    (click)="searchFoods()"
-                />
-            </p-inputGroupAddon>
-        </p-inputGroup>
-        <div class="w-[100%] mt-6 flex flex-col gap-2">
+        </p-inputGroupAddon>
+    </p-inputGroup>
+    <!-- CONTENT -->
+    <div class="w-full h-full" *ngIf="filteredFood.length > 0; else notFound">
+        <div class="w-full flex flex-col gap-2">
             <div *ngFor="let food of filteredFood">
-                <app-search-bar-food-card [food]="food"></app-search-bar-food-card>
+                <app-search-bar-food-card (click)="foodClicked()" [food]="food"></app-search-bar-food-card>
             </div>
         </div>
+    </div>
+    <ng-template #notFound class="w-full h-full block">
+        <div class="p-6 flex flex-col justify-center items-center gap-2">
+            <i class="pi pi-search"  style="font-size: 7.5rem; color: #565656;"></i>
+             <h1 class="text-[#565656] font-regular text-[24px]">Search to display</h1>
+        </div>
+    </ng-template>
 </p-dialog>

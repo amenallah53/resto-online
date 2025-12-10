@@ -1,3 +1,50 @@
-<app-foods-nav-bar></app-foods-nav-bar>
-<app-foods-top-section></app-foods-top-section>
-<app-foods-grid></app-foods-grid>
+<div class="bg-white">
+    <div class="mb-8 px-6 flex flex-row justify-between items-center">
+        <div class="flex flex-row justify-start items-center gap-3">
+            <h1 class="text-[24px] font-medium text-[#262626]">
+                {{ dynamicTitle }}
+            </h1>
+            <p class="text-[#565656] font-regular text-[24px]">
+                {{ filteredFood.length }} found foods
+            </p>
+        </div>
+
+        <div class="flex flex-row justify-start items-center gap-3">
+            <div *ngFor="let category of categories" class="mx-auto inline-block">
+                <button
+                    class="px-4 py-3 text-[20px] rounded-full border 
+                    hover:cursor-pointer transition-colors"
+                    [ngClass]="{
+                        'bg-blue-600 text-white border-blue-600 font-semibold': selectedCategory === category,
+                        'bg-white text-gray-700 border-gray-300 hover:bg-gray-100': selectedCategory !== category
+                    }"
+                    (click)="filterByCategory(category)"
+                >
+                    {{ category }}
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="px-[32px] md:px-[64px] w-full bg-white">
+        <div class="flex flex-col gap-6 items-center justify-center">
+            <p-paginator
+                (onPageChange)="onPageChange($event)"
+                [first]="first"
+                [rows]="rows"
+                [totalRecords]="filteredFood.length"
+            >
+            </p-paginator>
+            <div class="mx-auto">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full">
+                    <app-food-card 
+                        *ngFor="let food of paginatedFood"
+                        [food]="food">
+                    </app-food-card>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white py-[30px]"></div>
+</div>

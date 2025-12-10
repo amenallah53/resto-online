@@ -1,42 +1,62 @@
-<section class="relative h-[600px] overflow-hidden">
-  <!-- Background Image -->
+<section class="relative h-[625px] overflow-hidden">
+
+  <!-- Galleria Background Slider -->
   <div class="absolute inset-0">
-    <img 
-      [src]="imgUrl" 
-      alt="Reservation" 
-      class="w-full h-full object-cover scale-[1.1]" 
-    />
-    <!-- Overlay -->
-    <div class="absolute inset-0 bg-black/60"></div>
+    <p-galleria 
+      [value]="images"
+      [numVisible]="1"
+      [circular]="true"
+      [autoPlay]="true"
+      [showItemNavigators]="true"
+      [showThumbnails]="false"
+      [responsiveOptions]="responsiveOptions"
+      [containerStyle]="{ 'width': '100%', 'height': '100%' }"
+    >
+      <ng-template #item let-item>
+        <div class="relative w-full h-full">
+          <img 
+            [src]="item.itemImageSrc" 
+            class="w-full h-[625px] object-cover"
+          />
+          <!-- Dark overlay -->
+          <div class="absolute inset-0 bg-black/60"></div>
+        </div>
+      </ng-template>
+    </p-galleria>
   </div>
 
-  <!-- Content -->
+  <!-- Hero Content -->
   <div class="absolute inset-x-0 bottom-16 px-6">
     <div class="flex flex-col justify-start items-start max-w-4xl">
       <h2 class="rubik text-4xl md:text-[48px] font-bold text-white mb-6">
         Explore Our Delicious Menu
       </h2>
+
       <p class="font-regular text-[20px] text-white/90 mb-8 max-w-2xl">
         Discover a variety of mouth-watering dishes crafted with fresh ingredients and bold flavors.
       </p>
+
       <div class="flex flex-col sm:flex-row items-center justify-center gap-10">
-        <a href="foods" class="block">
-          <button class="group w-[200px] py-2 bg-blue-500 
-              flex flex-row items-center justify-center gap-2
-              rounded-[25px] text-white text-[20px] font-regular
-              transition-all duration-300 ease-in-out
-              hover:cursor-pointer hover:bg-blue-600">
-              <span class="transition-all duration-300 ease-out ml-6 group-hover:ml-0">
-                View Menu
-              </span>
-              <i style="font-size: 1rem" 
-              class="pi pi-arrow-right text-[#FFFFFFF]
-              opacity-0 translate-x-[-6px]
-              transition-all duration-300 ease-out
-              group-hover:opacity-100 group-hover:translate-x-0"></i>
+        <a href="foods">
+          <button
+            class="group w-[200px] py-2 bg-blue-500 
+                   flex flex-row items-center justify-center gap-2
+                   rounded-[25px] text-white text-[20px] font-regular
+                   transition-all duration-300 
+                   hover:bg-blue-600"
+          >
+            <span class="ml-6 group-hover:ml-0 transition-all">
+              View Menu
+            </span>
+            <i class="pi pi-arrow-right 
+                      opacity-0 -translate-x-2
+                      group-hover:opacity-100 group-hover:translate-x-0
+                      transition-all">
+            </i>
           </button>
         </a>
       </div>
     </div>
   </div>
+
 </section>

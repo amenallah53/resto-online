@@ -3,8 +3,8 @@ import { Injectable, signal } from '@angular/core';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
-  private adminEmail = "ghazi@gmail.com";
-  private adminPassword = "password_sahel";
+  private adminEmail = "admin@gmail.com";
+  private adminPassword = "admin@man_u!123";
 
   // logged-in state
   private _loggedIn = signal(false);

@@ -5,7 +5,11 @@ import { BehaviorSubject } from "rxjs";
 @Injectable({ providedIn: 'root' })
 export class CartService {
   private cartKey = 'resto-cart';
-
+  private cart: Cart = {
+    items: [],
+    id: "",
+    userId: ""
+  }; // in-memory only
   private cartSubject = new BehaviorSubject<Cart>(this.getCartFromStorage() || this.createEmptyCart());
   cart$ = this.cartSubject.asObservable(); // Observable to subscribe to in components
 

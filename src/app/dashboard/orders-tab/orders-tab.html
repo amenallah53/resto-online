@@ -1,76 +1,74 @@
 <div class="py-6 min-h-screen flex flex-col items-center gap-6">
-    <h1 class="text-[#565656] font-medium text-[24px]">List of Clients</h1>
-    <div class="w-full card px-12">
-        <p-table [columns]="cols" [value]="carts" [tableStyle]="{ 'min-width': '50rem' }">
+  <h1 class="text-[#565656] font-medium text-[24px]">List of Orders</h1>
+  <div class="w-full card px-12">
+    <p-table [columns]="cols" [value]="carts" [tableStyle]="{ 'min-width': '50rem' }">
 
-            <!-- HEADER -->
-            <ng-template pTemplate="header" let-columns>
-                <tr>
-                    <ng-container *ngFor="let col of columns">
-                        <th>{{ col.header }}</th>
-                    </ng-container>
-                    <th>Action</th>
-                </tr>
-            </ng-template>
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <ng-container *ngFor="let col of columns">
+            <th>{{ col.header }}</th>
+          </ng-container>
+          <th>Action</th>
+        </tr>
+      </ng-template>
 
-            <!-- BODY -->
-            <ng-template pTemplate="body" let-rowData let-columns="columns">
-                <tr>
-                    <ng-container *ngFor="let col of columns">
-                        <td>{{ rowData[col.field] }}</td>
-                    </ng-container>
+      <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr>
+          <ng-container *ngFor="let col of columns">
+            <td *ngIf="col.field !== 'items' && col.field !== 'totalPrice'">
+              {{ rowData[col.field] }}
+            </td>
 
-                    <td class="flex flex-row gap-2 items-center">
+            <td *ngIf="col.field === 'items'">
+              <ul class="pl-4 list-disc">
+                <li *ngFor="let item of rowData.items">
+                  {{ item.foodId }} x{{ calcItemQuantity(item.quantities) }} (${{ item.price.toFixed(2) }})
+                </li>
+              </ul>
+            </td>
 
-                        <!-- EDIT -->
-                        <div class="p-3 rounded-full transition-colors hover:bg-blue-500/10 cursor-pointer">
-                            <i 
-                                class="pi pi-user-edit text-blue-500"
-                                (click)="openEditDialog(rowData)">
-                            </i>
-                        </div>
+            <td *ngIf="col.field === 'totalPrice'">
+              ${{ calcCartTotal(rowData.items).toFixed(2) }}
+            </td>
+          </ng-container>
 
-                        <!-- DELETE -->
-                        <div class="p-3 rounded-full transition-colors hover:bg-red-500/10 cursor-pointer">
-                            <i 
-                                class="pi pi-trash text-red-500"
-                                (click)="deleteUser(rowData.id)">
-                            </i>
-                        </div>
+          <td class="flex flex-row gap-2 items-center">
+            <div class="p-3 rounded-full hover:bg-blue-500/10 cursor-pointer">
+              <i class="pi pi-user-edit text-blue-500" (click)="openEditDialog(rowData)"></i>
+            </div>
+            <div class="p-3 rounded-full hover:bg-red-500/10 cursor-pointer">
+              <i class="pi pi-trash text-red-500" (click)="deleteCart(rowData.id)"></i>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
 
-                    </td>
-                </tr>
-            </ng-template>
-
-        </p-table>
-    </div>
+    </p-table>
+  </div>
 </div>
 
-<!-- EDIT DIALOG -->
-<p-dialog 
-    header="Edit Profile"
-    [modal]="true"
-    [(visible)]="visible"
-    [style]="{ width: '25rem' }">
-
-    <span class="p-text-secondary block mb-8">Update the details</span>
-
-    <div class="flex items-center gap-4 mb-4">
-        <label class="font-semibold w-24">User ID</label>
-        <input pInputText class="flex-auto" [(ngModel)]="editData.userId" />
+<p-dialog header="Edit Order" [modal]="true" [(visible)]="visible" [style]="{ width: '30rem' }">
+  <div class="flex flex-col gap-4">
+    <div class="flex items-center gap-4">
+      <label class="font-semibold w-24">User ID</label>
+      <input pInputText class="flex-auto" [(ngModel)]="editData.userId" />
     </div>
 
-    <div class="flex items-center gap-4 mb-4">
-        <label class="font-semibold w-24">Items</label>
-        <input pInputText class="flex-auto" [(ngModel)]="editData.items" />
+    <div *ngFor="let item of editData.items; let i = index" class="flex flex-col gap-2">
+      <label class="font-semibold">Item {{ i + 1 }}</label>
+      <div class="flex gap-2">
+        <input pInputText placeholder="Food ID" [(ngModel)]="item.foodId" />
+        <input pInputText placeholder="Price" type="number" [(ngModel)]="item.price" />
+        <!-- Render quantity inputs separately -->
+        <div *ngFor="let q of item.quantities; let qi = index">
+          <input type="number" [(ngModel)]="item.quantities[qi]" min="0" />
+        </div>
+      </div>
     </div>
+  </div>
 
-    <div class="flex justify-end gap-2">
-        <p-button label="Cancel" severity="secondary" (click)="visible = false" />
-        
-        <p-button 
-            label="Save"
-            (click)="saveChanges()" 
-        />
-    </div>
+  <div class="flex justify-end gap-2 mt-4">
+    <p-button label="Cancel" severity="secondary" (click)="visible = false" />
+    <p-button label="Save" (click)="saveChanges()" />
+  </div>
 </p-dialog>

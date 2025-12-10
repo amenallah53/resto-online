@@ -1,22 +1,26 @@
 <a [routerLink]="['/foods', food.id]">
-    <div class="w-[70vw] px-4 my-2 flex justify-flex-start align-center">
-        <div class="flex gap-4">
-            <div class="min-w-16 min-h-16 w-16 h-16 border rounded-md overflow-hidden">
+    <div class="w-full my-2 flex justify-between align-center">
+        <div class="flex flex-row items-center gap-4">
+            <div class="rounded-md overflow-hidden">
                 <img 
                 [src]="food.thumbnailUrl" 
                 alt="{{food.name}}"
-                class="w-16 h-16 object-cover"
+                class="w-24 h-24 object-cover"
                 >
             </div>
-            <div class="flex flex-col gap-4 justify-start w-full">
-                <p class="m-0 p-0 text-5 text-black font-medium">{{food.name}}</p>
-                <p class="m-0 p-0 text-6 text-green-700 font-bold">{{food.price}} Dt</p>
+            <div class="flex flex-col justify-start gap-2">
+                <h2 class="text-[#565656] font-medium text-[24px]">
+                    {{food.name}}
+                </h2>
+                <h3 class="text-[#565656] font-regular text-[18px]">
+                {{food.price}} Dt 
+                </h3>
             </div>
-            <div class="w-[100%] text-gray-400">{{food.description}}</div>
-            <p class="m-0 p-0 w-16" *ngIf="food.rating != undefined">
-                <i class="pi pi-star-fill text-[#f5cb42] justify-self-end"></i>
-                4.5
-            </p>
+        </div>
+        
+        <div class="flex flex-row items-center gap-2">
+            <i style="font-size: 1.5rem" class="pi pi-star-fill text-[#f5cb42]"></i>
+            <span class="text-[#565656] font-regular text-[16px]">{{food.rating}}</span>
         </div>
     </div>
 </a>

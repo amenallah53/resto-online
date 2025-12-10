@@ -12,6 +12,7 @@ interface Column {
   field: string;
   header: string;
 }
+
 @Component({
   selector: 'app-orders-tab',
   imports: [
@@ -26,7 +27,6 @@ interface Column {
   styleUrl: './orders-tab.css',
 })
 
-
 export class OrdersTab {
   carts = CARTS;
   cols!: Column[];
@@ -36,13 +36,15 @@ export class OrdersTab {
 
   editData = {
     userId: '',
-    items: [{foodId:'',quantities:[1], price: 12.99}],
+    items: [{ foodId: '', quantities: [1], price: 0 }],
   };
 
   ngOnInit() {
     this.cols = [
-      { field: 'userId', header: 'userId' },
-      { field: 'items', header: 'items' },
+      { field: 'id', header: 'Cart ID' },
+      { field: 'userId', header: 'User ID' },
+      { field: 'items', header: 'Items' },
+      { field: 'totalPrice', header: 'Total Price' },
     ];
   }
 
@@ -50,32 +52,46 @@ export class OrdersTab {
     this.selectedCart = cart;
     this.visible = true;
 
+    // Deep clone items so we don’t mutate original
     this.editData = {
       userId: cart.userId,
-      items: cart.items,
+      items: cart.items.map(i => ({ ...i })),
     };
   }
 
   saveChanges() {
     if (!this.selectedCart) return;
 
-    this.carts = this.carts.map((u) =>
-      u.id === this.selectedCart!.id
+    this.carts = this.carts.map(c =>
+      c.id === this.selectedCart!.id
         ? {
-            ...u,
+            ...c,
             userId: this.editData.userId,
-            email: this.editData.items,
+            items: this.editData.items.map(i => ({ ...i })),
+            updatedAt: new Date(),
           }
-        : u
+        : c
     );
-
-    this.selectedCart.updatedAt=new Date(); 
 
     this.visible = false;
     this.selectedCart = null;
   }
 
-  deleteUser(id: string) {
-    this.carts = this.carts.filter((u) => u.id !== id);
+  deleteCart(id: string) {
+    this.carts = this.carts.filter(c => c.id !== id);
+  }
+
+  calcCartTotal(items: { price: number }[]) {
+    return items.reduce((sum, i) => sum + i.price, 0);
+  }
+
+  calcItemQuantity(quantities: number[]) {
+    return quantities.reduce((a, b) => a + b, 0);
+  }
+
+  // Update a quantity of an item in the edit dialog
+  updateQuantity(item: any, index: number, value: number) {
+    item.quantities[index] = value;
   }
 }
+
