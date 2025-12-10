@@ -14,6 +14,7 @@ export const routes: Routes = [
       { path: 'foods', loadComponent: () => import('./features/foods/foods').then(m => m.Foods) },
       { path: 'foods/:foodId', loadComponent: () => import('./features/foods/food-details').then(m => m.FoodDetails) },
       { path: 'cart', loadComponent: () => import('./features/cart/cart').then(m => m.Cart) },
+      { path: 'login-page', loadComponent: () => import('./features/login-sign-up-page/login-sign-up-page').then(m => m.LoginSignUpPage) },
       { path: 'reservations', loadComponent: () => import('./features/reservations/reservations').then(m => m.Reservations) },
     ]
   },

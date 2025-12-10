@@ -10,6 +10,7 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputTextModule } from 'primeng/inputtext';
 import { CartDrawer } from '../cart-drawer/cart-drawer';
 import { Food } from '../../models/food';
+import { RouterLink } from "@angular/router";
 @Component({
   selector: 'app-header',
   imports: [
@@ -22,8 +23,9 @@ import { Food } from '../../models/food';
     InputTextModule,
     FormsModule,
     CartDrawer,
-    NgIf
-  ],
+    NgIf,
+    RouterLink
+],
   templateUrl: './header.html',
   styleUrls: ['./header.css'],
 })

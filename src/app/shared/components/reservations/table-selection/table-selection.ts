@@ -69,6 +69,7 @@ export class TableSelection {
     this.checkTime();
     this.checkPeople();
     this.acceptableAll=this.acceptableDate && this.acceptableTime && this.acceptablePeople;
+
   }
 
   saveReservation() {
@@ -105,6 +106,16 @@ export class TableSelection {
   }
 
   private findAvailableTable(): Table {
-    return TABLES.filter(table => table.capacity >= this.numberOfPeople)[0];
+    const reservationDateTime = this.parseReservationDateTime();
+    const reservationEndTime = new Date(reservationDateTime.getTime() + 60 * 60 * 1000);
+    
+    return TABLES.filter(table => 
+      table.capacity >= this.numberOfPeople &&
+      !RESERVATIONS.some(reservation => 
+      reservation.tableNumber === table.tableID &&
+      reservation.reservationTime < reservationEndTime &&
+      new Date(reservation.reservationTime.getTime() + 60 * 60 * 1000) > reservationDateTime
+      )
+    )[0];
   }
 }
