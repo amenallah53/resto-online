@@ -10,15 +10,14 @@
         >
             <i style="font-size: 1.5rem" class="pi pi-search text-blue-500"></i>
         </div>
-
+        <app-cart-drawer></app-cart-drawer>
         <a routerLink="/login-page">
             <div 
                 (click)="logout()"
                 class="p-3 rounded-full transition-colors hover:bg-blue-500/10 cursor-pointer">
-                <i style="font-size: 1.5rem" class="pi pi-user text-blue-500"></i>
+                <i style="font-size: 1.5rem" class="pi pi-sign-out text-blue-500"></i>
             </div>
         </a>
-        <app-cart-drawer></app-cart-drawer>
     </div>
 </nav>
 

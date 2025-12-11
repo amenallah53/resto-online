@@ -1,4 +1,4 @@
-import { Component, Input, output, Output } from '@angular/core';
+import { Component, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
@@ -6,6 +6,8 @@ import { ToastModule } from 'primeng/toast';
 import { MessageModule } from 'primeng/message';
 import { MessageService } from 'primeng/api';
 import { FormsModule, NgForm } from '@angular/forms';
+import { AuthService } from '../../../../core/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-up-page',
@@ -31,8 +33,12 @@ export class SignUpPage {
     lastName: '',
     password: ''
   };
-  auth: any;
-  messageService: any;
+ 
+  constructor(
+  private auth: AuthService,
+  private messageService: MessageService,
+  private router: Router
+) {}
 
   onSubmit(form: NgForm) {
     if (form.valid) {

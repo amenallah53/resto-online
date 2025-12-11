@@ -1,5 +1,8 @@
 import { Injectable, signal, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { Router } from '@angular/router';
+import { USERS } from '../../shared/utils/users';
+import { User } from '../../shared/models/user';
 
 export enum UserRole {
   ADMIN = 'admin',
@@ -43,8 +46,10 @@ export class AuthService {
   public currentUser = this._currentUser.asReadonly();
 
   private USER_TOKEN_KEY = 'user_token';
+  private USERS_STORAGE_KEY = 'resto_users';
+  private CREDENTIALS_STORAGE_KEY = 'resto_credentials';
 
-  constructor(@Inject(PLATFORM_ID) private platformId: any) {}
+  constructor(@Inject(PLATFORM_ID) private platformId: any, private router: Router) {}
 
   private isBrowser(): boolean {
     return isPlatformBrowser(this.platformId);
@@ -82,6 +87,77 @@ export class AuthService {
     if (this.isBrowser()) localStorage.removeItem(this.USER_TOKEN_KEY);
     return false;
   }
+
+  signUp(userData: {
+    username: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    password: string;
+  }): { success: boolean; message: string } {
+    // Check if email already exists
+    const emailExists = this.userCredentials.some(u => u.email === userData.email);
+    if (emailExists) {
+      return { success: false, message: 'Email already exists' };
+    }
+
+    // Check if username already exists in USERS
+    const usernameExists = USERS.some(u => u.username === userData.username);
+    if (usernameExists) {
+      return { success: false, message: 'Username already taken' };
+    }
+
+    // Generate new user ID
+    const newUserId = 'u' + (USERS.length + 1);
+
+    // Create new user object
+    const newUser: User = {
+      id: newUserId,
+      username: userData.username,
+      email: userData.email,
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+      createdAt: new Date()
+    };
+
+    // Add to USERS array
+    USERS.push(newUser);
+
+    // Add credentials
+    this.userCredentials.push({
+      email: userData.email,
+      password: userData.password,
+      role: UserRole.USER
+    });
+
+    // Save to localStorage
+    this.saveUsersToLocalStorage();
+    this.saveCredentialsToLocalStorage();
+
+    return { success: true, message: 'Account created successfully' };
+  }
+
+  private saveUsersToLocalStorage() {
+    if (!this.isBrowser()) return;
+    try {
+      localStorage.setItem(this.USERS_STORAGE_KEY, JSON.stringify(USERS));
+    } catch (error) {
+      console.error('Error saving users to localStorage:', error);
+    }
+  }
+
+  /**
+   * Save credentials to localStorage
+   */
+  private saveCredentialsToLocalStorage() {
+    if (!this.isBrowser()) return;
+    try {
+      localStorage.setItem(this.CREDENTIALS_STORAGE_KEY, JSON.stringify(this.userCredentials));
+    } catch (error) {
+      console.error('Error saving credentials to localStorage:', error);
+    }
+  }
+
 
   logout() {
     this._loggedIn.set(false);
