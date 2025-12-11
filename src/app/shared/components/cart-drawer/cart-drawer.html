@@ -33,8 +33,10 @@
 
                     </div>
                     </div>
-                    <div class="p-3 rounded-full transition-colors hover:bg-red-500/10 cursor-pointer">
-                        <i (click)="cartService.removeItem(item.food?.id!)" class="pi pi-trash text-red-500 cursor-pointer"></i>
+                    <div 
+                        (click)="cartService.removeItem(item.food?.id!)"
+                        class="p-3 rounded-full transition-colors hover:bg-red-500/10 cursor-pointer">
+                        <i class="pi pi-trash text-red-500 cursor-pointer"></i>
                     </div>
                     
                 </div>

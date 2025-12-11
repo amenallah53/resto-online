@@ -12,7 +12,9 @@
         </div>
 
         <a routerLink="/login-page">
-            <div class="p-3 rounded-full transition-colors hover:bg-blue-500/10 cursor-pointer">
+            <div 
+                (click)="logout()"
+                class="p-3 rounded-full transition-colors hover:bg-blue-500/10 cursor-pointer">
                 <i style="font-size: 1.5rem" class="pi pi-user text-blue-500"></i>
             </div>
         </a>

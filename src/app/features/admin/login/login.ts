@@ -34,12 +34,19 @@ export class Login {
   constructor(private auth: AuthService, private router: Router) {}
 
   onSubmit(form: NgForm) {
-    if (form.valid) {
-      const ok = this.auth.login({ email: this.credentialsData.email, 
-        password: this.credentialsData.password });
-      if (ok) this.router.navigate(['/admin']);
-      else alert("WRONG CREDENTIALS");
-      form.reset()
+    if (!form.valid) return;
+
+    const ok = this.auth.login({ email: this.credentialsData.email, password: this.credentialsData.password });
+
+    if (ok) {
+      if (this.auth.isAdmin()) this.router.navigate(['/admin']);
+      else this.router.navigate(['/']); // normal user
+      form.reset();
+      return;
     }
+
+    alert('WRONG CREDENTIALS');
+    form.reset();
   }
+
 }

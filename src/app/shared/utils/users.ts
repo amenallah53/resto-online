@@ -26,5 +26,13 @@ export const USERS: User[] = [
     firstName: 'Mike',
     lastName: 'Brown',
     createdAt: new Date('2024-05-01')
+  },
+  {
+    id: 'u4',
+    username: 'amenallah53',
+    email: 'amenkalai53@gmail.com',
+    firstName: 'amenallah',
+    lastName: 'kalai',
+    createdAt: new Date('2024-05-01')
   }
 ];

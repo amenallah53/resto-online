@@ -10,7 +10,8 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputTextModule } from 'primeng/inputtext';
 import { CartDrawer } from '../cart-drawer/cart-drawer';
 import { Food } from '../../models/food';
-import { RouterLink } from "@angular/router";
+import { Router, RouterLink } from "@angular/router";
+import { AuthService } from '../../../core/services/auth.service';
 @Component({
   selector: 'app-header',
   imports: [
@@ -30,6 +31,9 @@ import { RouterLink } from "@angular/router";
   styleUrls: ['./header.css'],
 })
 export class Header {
+
+  constructor(private auth: AuthService, private router: Router) {}
+
   visible: boolean = false;
 
   showDialog() {
@@ -53,5 +57,10 @@ export class Header {
 
   foodClicked() {
     this.visible = false
+  }
+
+  logout() {
+    this.auth.logout();          // clear user session
+    this.router.navigate(['/login-page']); // go to login
   }
 }
